@@ -1,0 +1,113 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import { identity } from "../../../config";
+import { withBase } from "../../../utils/url";
+
+const seo = {
+  title: "Survey Data Quality Inspector · Zhenyu Atlas",
+  description: "A Python and Streamlit prototype for fourth-order leveling calculations, data validation, quality grading, anomaly reporting and interactive visualization.",
+  image: identity.hero,
+};
+
+const features = [
+  "CSV and XLSX data input with three built-in sample datasets",
+  "Closed and connected leveling route calculations",
+  "Closure error, allowable error and distance-weighted adjustment",
+  "PASS, WARNING and FAIL quality status",
+  "Field-level validation with row numbers and review guidance",
+  "Interactive elevation, distance and quality charts",
+];
+---
+
+<Layout seo={seo}>
+  <article>
+    <header class="page-shell project-hero reveal">
+      <a class="back-link" href={withBase("/projects/")}>← Selected work</a>
+      <p class="eyebrow">Surveying · Python · Prototype</p>
+      <h1>Survey Data<br />Quality Inspector</h1>
+      <p class="lead">A lightweight web tool that turns leveling tables into calculations, quality conclusions, anomaly locations and visual explanations.</p>
+    </header>
+
+    <section class="page-shell dashboard" aria-label="Project interface overview">
+      <div class="dashboard-top">
+        <div><span>SURVEYING · QUALITY CONTROL</span><strong>Automated checks for leveling data</strong></div>
+        <span class="prototype">Local prototype</span>
+      </div>
+      <div class="metrics">
+        <div><span>Total distance</span><strong>0.900 km</strong></div>
+        <div><span>Closure error</span><strong>+10.0 mm</strong></div>
+        <div><span>Allowed error</span><strong>±19.0 mm</strong></div>
+        <div class="pass"><span>Quality</span><strong>PASS</strong></div>
+      </div>
+      <div class="chart" aria-hidden="true">
+        <span style="--x: 8%; --h: 36%"></span><span style="--x: 23%; --h: 58%"></span><span style="--x: 38%; --h: 45%"></span><span style="--x: 53%; --h: 76%"></span><span style="--x: 68%; --h: 63%"></span><span style="--x: 83%; --h: 88%"></span>
+      </div>
+    </section>
+
+    <section class="page-shell details section">
+      <div>
+        <p class="eyebrow">// The problem</p>
+        <h2>Make quality checks earlier and easier to explain.</h2>
+      </div>
+      <p class="lead">Surveying study and field-data review often depend on repeated spreadsheet calculations. Format errors, route breaks and closure problems may only surface late. This project brings the calculation, validation and explanation into one workflow.</p>
+    </section>
+
+    <section class="page-shell feature-section section">
+      <div>
+        <p class="eyebrow">// What it does</p>
+        <h2>From raw observations to a reviewable result.</h2>
+      </div>
+      <ul>
+        {features.map((feature) => <li>{feature}</li>)}
+      </ul>
+    </section>
+
+    <section class="page-shell notes section">
+      <div>
+        <p class="eyebrow">// Stack</p>
+        <p>Python · Streamlit · Pandas · Plotly · pytest · openpyxl</p>
+      </div>
+      <div>
+        <p class="eyebrow">// Current status</p>
+        <p>The application runs locally and its core calculations are covered by automated tests. A public Streamlit deployment has not been published yet.</p>
+      </div>
+      <div>
+        <p class="eyebrow">// Scope</p>
+        <p>Designed for learning, teaching and assisted data checks. Formal engineering results still require the applicable surveying standards and professional review.</p>
+      </div>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .project-hero { padding: clamp(5rem, 12vw, 10rem) 0 clamp(4rem, 8vw, 7rem); }
+  .back-link { display: inline-block; margin-bottom: 4rem; color: var(--text-secondary); font-size: .85rem; }
+  h1 { margin: 0; max-width: 12ch; font-family: var(--serif); font-size: clamp(3.5rem, 8vw, 7.4rem); font-weight: 400; letter-spacing: -.065em; line-height: .92; }
+  .project-hero .lead { margin: 2rem 0 0; }
+  .dashboard { padding: clamp(1.5rem, 4vw, 3rem); border-radius: 1.8rem; background: #102f3a; color: #f4f7f8; }
+  .dashboard-top { display: flex; justify-content: space-between; gap: 2rem; align-items: start; }
+  .dashboard-top div { display: grid; gap: .45rem; }
+  .dashboard-top div span { color: #80d7c8; font-size: .68rem; font-weight: 700; letter-spacing: .15em; }
+  .dashboard-top strong { font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2.4rem); font-weight: 400; }
+  .prototype { padding: .45rem .7rem; border: 1px solid rgba(255,255,255,.25); border-radius: 999px; font-size: .68rem; text-transform: uppercase; letter-spacing: .1em; white-space: nowrap; }
+  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; margin-top: 2rem; }
+  .metrics div { display: grid; gap: .5rem; padding: 1rem; border: 1px solid rgba(255,255,255,.12); border-radius: .9rem; background: rgba(255,255,255,.07); }
+  .metrics span { color: #cbe5df; font-size: .72rem; }
+  .metrics strong { font-size: 1.05rem; }
+  .metrics .pass strong { color: #80d7c8; }
+  .chart { position: relative; height: 13rem; margin-top: 1rem; border-radius: 1rem; overflow: hidden; background: linear-gradient(rgba(128,215,200,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(128,215,200,.08) 1px, transparent 1px); background-size: 3rem 3rem; }
+  .chart::after { content: ""; position: absolute; left: 5%; right: 5%; top: 25%; height: 2px; background: linear-gradient(90deg, transparent, #80d7c8 15%, #80d7c8 85%, transparent); transform: rotate(-8deg); transform-origin: center; }
+  .chart span { position: absolute; bottom: 0; left: var(--x); width: 6%; height: var(--h); border-radius: .3rem .3rem 0 0; background: rgba(128,215,200,.28); }
+  .details, .feature-section { display: grid; grid-template-columns: minmax(0, .9fr) minmax(20rem, 1.1fr); gap: clamp(3rem, 8vw, 8rem); align-items: start; }
+  h2 { margin: 0; font-family: var(--serif); font-size: clamp(2.4rem, 5vw, 4.8rem); font-weight: 400; letter-spacing: -.05em; line-height: 1; }
+  .details .lead { margin: 0; }
+  ul { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border); }
+  li { padding: 1rem 0; border-bottom: 1px solid var(--border); color: var(--text-secondary); line-height: 1.5; }
+  .notes { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(2rem, 5vw, 5rem); border-top: 1px solid var(--border); }
+  .notes p:last-child { margin: 0; color: var(--text-secondary); line-height: 1.65; }
+  @media (max-width: 760px) {
+    .dashboard-top { flex-direction: column; }
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+    .details, .feature-section, .notes { grid-template-columns: 1fr; }
+  }
+</style>
