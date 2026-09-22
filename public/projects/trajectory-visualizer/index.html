@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>实时轨迹可视化系统原型 | Zhenyu Liu</title>
+  <meta name="description" content="Zhenyu Liu 的测绘轨迹可视化学习原型，支持轨迹回放、倍速控制、进度拖动以及坐标、距离和速度统计。">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#07161d">
+  <link rel="canonical" href="./">
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="实时轨迹可视化系统原型 | Zhenyu Liu">
+  <meta property="og:description" content="面向测绘学习的轨迹回放原型，包含播放控制、进度拖动与实时统计。">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div><p class="eyebrow">TRACK REPLAY · MVP 01</p><h1>实时轨迹可视化系统</h1><p>测绘外业车辆 · 演示轨迹 2026-09-20</p></div>
+    <div id="liveStatus" class="live paused"><span></span><b>已暂停</b></div>
+  </header>
+
+  <main>
+    <section class="map-card">
+      <svg id="map" viewBox="0 0 1000 590" role="img" aria-label="轨迹回放示意地图">
+        <defs>
+          <pattern id="smallGrid" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M 25 0 L 0 0 0 25" fill="none" stroke="#193b46" stroke-width="1" opacity=".28"/></pattern>
+          <filter id="glow"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <rect width="1000" height="590" fill="url(#smallGrid)"/>
+        <path class="river" d="M-20 460C180 350 250 530 460 430S760 300 1020 370"/>
+        <path class="road" d="M20 170C190 110 330 220 480 150S760 60 980 165"/>
+        <path class="road thin" d="M120 20C180 190 100 310 250 570M710 20C650 190 820 360 760 590"/>
+        <polyline id="route" class="route"/>
+        <polyline id="traveled" class="traveled"/>
+        <g id="vehicle" filter="url(#glow)"><circle r="16"/><circle r="5"/></g>
+      </svg>
+      <div class="north">N<br>↑</div>
+      <div class="map-note">示意坐标系 · 真实项目将替换为地图底图与经纬度</div>
+    </section>
+
+    <section class="dashboard">
+      <div class="controls">
+        <button id="play">▶ 播放</button>
+        <button id="restart" class="secondary">↺ 重播</button>
+        <label>倍速 <select id="speed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select></label>
+        <span id="clock">08:00:00</span>
+      </div>
+      <input id="progress" type="range" min="0" max="1000" value="0" aria-label="轨迹播放进度">
+      <div class="stats">
+        <article><span>当前坐标</span><strong id="coords">—</strong></article>
+        <article><span>当前速度</span><strong id="currentSpeed">—</strong></article>
+        <article><span>累计距离</span><strong id="distance">0 m</strong></article>
+        <article><span>完成进度</span><strong id="percent">0%</strong></article>
+      </div>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

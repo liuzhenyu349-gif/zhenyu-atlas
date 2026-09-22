@@ -4,12 +4,25 @@ import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
 import { navBarLinks, identity } from "../config";
 import type { SEOInfo } from "../types/config";
+import { withBase } from "../utils/url";
 
 interface Props {
   seo: SEOInfo;
 }
 
 const { seo } = Astro.props;
+const canonicalUrl = Astro.url.href;
+const socialImageUrl = new URL(withBase(seo.image), Astro.site ?? Astro.url.origin).href;
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: identity.name,
+  url: new URL(withBase("/"), Astro.site ?? Astro.url.origin).href,
+  image: socialImageUrl,
+  email: `mailto:${identity.email}`,
+  sameAs: ["https://github.com/liuzhenyu349-gif"],
+  jobTitle: "Surveying Engineering Student",
+};
 ---
 
 <script>
@@ -48,27 +61,39 @@ const { seo } = Astro.props;
   });
 </script>
 
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
+    <link rel="canonical" href={canonicalUrl} />
     <meta name="generator" content={Astro.generator} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#000000" />
     <title>{seo.title}</title>
     <meta name="description" content={seo.description} />
+    <meta property="og:type" content={seo.type ?? "website"} />
+    <meta property="og:site_name" content="Zhenyu Liu · Learning & Projects" />
     <meta property="og:title" content={seo.title} />
     <meta property="og:description" content={seo.description} />
-    <meta property="og:image" content={seo.image} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:alt" content={`${identity.name} portfolio preview`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={seo.title} />
+    <meta name="twitter:description" content={seo.description} />
+    <meta name="twitter:image" content={socialImageUrl} />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </head>
   <body>
     <header>
       <div
         class="px-6 py-6 max-w-2xl mx-auto flex items-center justify-between"
       >
-        <a href="/">
+        <a href={withBase("/")}>
           <Image
-            src={identity.logo}
-            alt={"Logo"}
+            src={withBase(identity.logo)}
+            alt={`${identity.name} 的标志`}
             width={50}
             height={50}
             class="w-[50px] h-[50px] object-cover"
@@ -81,7 +106,7 @@ const { seo } = Astro.props;
                 <li>
                   <a
                     class="group px-4 py-2 rounded-lg hover:bg-gray-bg opacity-60 hover:opacity-100 transition-all"
-                    href={link.url}
+                    href={withBase(link.url)}
                     target={link.external ? "_blank" : "_self"}
                   >
                     {link.title}
@@ -94,7 +119,7 @@ const { seo } = Astro.props;
             <button
               id="link-menu-button"
               class="relative font-medium opacity-60 p-4"
-              >Menu <span id="open-indicator">+</span></button
+              >菜单 <span id="open-indicator">+</span></button
             >
             <div
               id="link-menu"
@@ -106,7 +131,7 @@ const { seo } = Astro.props;
                     <li>
                       <a
                         class="block pl-4 py-3"
-                        href={link.url}
+                        href={withBase(link.url)}
                         target={link.external ? "_blank" : "_self"}
                       >
                         {link.title}

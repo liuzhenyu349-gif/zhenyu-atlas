@@ -1,36 +1,67 @@
 ---
 import { Image } from "astro:assets";
 import type { Project } from "../types/config";
-import {marked} from "marked"
+import { marked } from "marked";
+import { withBase } from "../utils/url";
 
 type Props = Project;
 
-const { title, description, image, year, url } = Astro.props;
-
-const htmlDescription = marked.parse(description)
+const { title, description, image, year, url, status } = Astro.props;
+const htmlDescription = marked.parse(description);
 ---
 
-<a
-  href={url}
-  target="_blank"
-  class="sm:py-5 py-10 flex flex-col sm:flex-row gap-6 group-hover:opacity-60 hover:!opacity-100 transition-opacity"
->
-  <div class="h-full bg-gray-700 rounded-lg aspect-video sm:h-[150px]">
-    <Image
-      width={1920}
-      height={1080}
-      src={image}
-      alt={title}
-      class="w-full h-full object-cover rounded-lg aspect-video"
-    />
-  </div>
-  <div>
-    <div class="flex items-center gap-1 mb-2">
+<article class="sm:py-5 py-10 flex flex-col sm:flex-row gap-6 group-hover:opacity-60 hover:!opacity-100 transition-opacity">
+  {
+    image ? (
+      <div class="h-full bg-gray-700 rounded-lg aspect-video sm:h-[150px] sm:min-w-[267px]">
+        <Image
+          width={1920}
+          height={1080}
+          src={withBase(image)}
+          alt={title}
+          class="w-full h-full object-cover rounded-lg aspect-video"
+        />
+      </div>
+    ) : (
+      <div class="project-placeholder aspect-video sm:h-[150px] sm:min-w-[267px] rounded-lg" aria-hidden="true">
+        <span>{status ?? "Coming Soon"}</span>
+      </div>
+    )
+  }
+  <div class="flex-1">
+    <div class="flex flex-wrap items-center gap-2 mb-2">
       <h2 class="font-medium">{title}</h2>
       <span class="opacity-60">· {year}</span>
+      {status && <span class="status-badge">{status}</span>}
     </div>
     <div class="opacity-60">
       <Fragment set:html={htmlDescription} />
     </div>
+    {url && <a class="inline-block mt-4 underline underline-offset-4 opacity-60 hover:opacity-100" href={withBase(url)}>查看项目</a>}
   </div>
-</a>
+</article>
+
+<style>
+  .project-placeholder {
+    display: grid;
+    place-items: center;
+    background:
+      linear-gradient(135deg, rgba(255,255,255,.08), transparent 55%),
+      repeating-linear-gradient(135deg, #151515, #151515 12px, #1c1c1c 12px, #1c1c1c 24px);
+    border: 1px solid rgba(255,255,255,.1);
+    color: rgba(255,255,255,.45);
+    font-size: .75rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  .status-badge {
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 999px;
+    color: rgba(255,255,255,.55);
+    font-size: .68rem;
+    letter-spacing: .06em;
+    padding: .18rem .5rem;
+    text-transform: uppercase;
+  }
+</style>

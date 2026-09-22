@@ -5,6 +5,7 @@ import { homePageContent, identity } from "../config";
 import SocialLink from "../components/SocialLink.astro";
 import Link from "../components/Link.astro";
 import { getCollection } from "astro:content";
+import { withBase } from "../utils/url";
 
 const posts = await getCollection("posts");
 posts.sort((a, b) => {
@@ -21,11 +22,11 @@ posts.splice(2)
     <p class="opacity-60 mb-10">{homePageContent.role}</p>
     <div class="flex flex-col min-[520px]:flex-row gap-6 mb-8">
       <Image
-        src={identity.logo}
+        src={withBase(identity.logo)}
         alt={identity.name}
         width={100}
         height={100}
-        class="rounded-full"
+        class="rounded-full w-[100px] h-[100px] object-cover"
       />
       <div class="group flex flex-col justify-center gap-2 w-fit">
         {
@@ -52,16 +53,24 @@ posts.splice(2)
     </div>
   </section>
   <section class="mt-20 max-w-2xl mx-auto px-6">
-    <h2 class="mb-8">Latest Posts</h2>
+    <h2 class="mb-8">成长记录</h2>
+    {
+      posts.length === 0 && (
+        <div class="rounded-xl border border-white/10 p-6 mb-10">
+          <p class="font-medium mb-2">Coming Soon</p>
+          <p class="opacity-60 text-sm">这里将记录 Python、AI、软件开发与测绘工程的学习过程。</p>
+        </div>
+      )
+    }
     <div class="grid grid-cols-1 gap-10 sm:gap-6 mb-10">
       {
         posts.map((post) => (
           <a
-            href={`/blog/${post.id}`}
+            href={withBase(`/blog/${post.id}`)}
             class=" sm:flex sm:flex-row-reverse sm:justify-between sm:gap-6 post"
           >
             <Image
-              src={post.data.image.url}
+              src={withBase(post.data.image.url)}
               alt={post.data.image.url}
               width={100}
               height={100}
@@ -78,12 +87,12 @@ posts.splice(2)
         ))
       }
     </div>
-    <div class="text-center">
-      <a
-        href="/blog"
-        class="underline underline-offset-4 opacity-60 hover:opacity-100 transition-opacity"
-        >View all</a
-      >
-    </div>
+    {
+      posts.length > 0 && (
+        <div class="text-center">
+          <a href={withBase("/blog")} class="underline underline-offset-4 opacity-60 hover:opacity-100 transition-opacity">查看全部</a>
+        </div>
+      )
+    }
   </section>
 </Layout>

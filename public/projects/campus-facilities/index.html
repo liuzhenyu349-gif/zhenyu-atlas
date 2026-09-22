@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>校园设施管理系统原型 | Zhenyu Liu</title>
+  <meta name="description" content="Zhenyu Liu 的校园 GIS 学习原型，支持设施搜索、分类筛选、地图交互、开放状态与坐标信息展示。">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#eef5f2">
+  <link rel="canonical" href="./">
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="校园设施管理系统原型 | Zhenyu Liu">
+  <meta property="og:description" content="可交互的校园 GIS 学习原型，包含设施搜索、分类筛选、详情与坐标展示。">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">CAMPUS GIS · MVP 01</p>
+      <h1>校园设施管理系统</h1>
+      <p>点击地图设施，快速查看位置、开放时间与服务信息。</p>
+    </div>
+    <div class="status"><span></span> 演示数据已加载</div>
+  </header>
+
+  <main class="layout">
+    <aside class="panel controls">
+      <label for="search">搜索设施</label>
+      <input id="search" type="search" placeholder="例如：图书馆、食堂、运动">
+      <div class="filters" aria-label="设施分类">
+        <button class="filter active" data-category="全部">全部</button>
+        <button class="filter" data-category="教学">教学</button>
+        <button class="filter" data-category="生活">生活</button>
+        <button class="filter" data-category="运动">运动</button>
+      </div>
+      <p id="resultCount" class="muted"></p>
+      <div id="facilityList" class="facility-list"></div>
+    </aside>
+
+    <section class="map-card" aria-label="校园设施示意地图">
+      <div class="map-label">北 ↑</div>
+      <svg id="campusMap" viewBox="0 0 900 620" role="img" aria-label="校园平面图">
+        <defs>
+          <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+            <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#dbe5e2" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <rect width="900" height="620" fill="url(#grid)"/>
+        <path class="road" d="M80 320H820M450 55V565"/>
+        <path class="trail" d="M110 100C260 185 600 80 790 180M120 520C280 430 610 550 790 430"/>
+        <rect class="water" x="650" y="350" width="130" height="95" rx="45"/>
+        <g id="markers"></g>
+      </svg>
+      <div class="legend"><span class="dot teaching"></span>教学 <span class="dot life"></span>生活 <span class="dot sport"></span>运动</div>
+    </section>
+
+    <aside id="detail" class="panel detail" aria-live="polite">
+      <p class="eyebrow">设施详情</p>
+      <h2 id="detailName">请选择设施</h2>
+      <p id="detailDescription">从左侧列表或地图中选择一个设施。</p>
+      <dl>
+        <div><dt>分类</dt><dd id="detailCategory">—</dd></div>
+        <div><dt>开放时间</dt><dd id="detailHours">—</dd></div>
+        <div><dt>坐标</dt><dd id="detailCoords">—</dd></div>
+      </dl>
+      <div id="openBadge" class="open-badge neutral">等待选择</div>
+    </aside>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

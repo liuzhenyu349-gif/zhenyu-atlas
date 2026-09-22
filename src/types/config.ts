@@ -21,6 +21,7 @@ export type SEOInfo = {
   title: string;
   description: string;
   image: string;
+  type?: "website" | "article";
 };
 
 export type HomePageContent = {
@@ -40,7 +41,7 @@ export type ResumeItem = {
   company: {
     name: string;
     image: string;
-    url: string;
+    url?: string;
   };
   date: string;
 };
@@ -72,9 +73,10 @@ export type AboutPageContent = {
 export type Project = {
   title: string;
   description: string;
-  image: string;
+  image?: string;
   year: string;
-  url: string;
+  url?: string;
+  status?: string;
 };
 
 export type ProjectPageContent = {
