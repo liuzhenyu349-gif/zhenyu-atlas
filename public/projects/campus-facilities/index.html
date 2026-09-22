@@ -17,11 +17,11 @@
 <body>
   <header class="topbar">
     <div>
-      <p class="eyebrow">CAMPUS GIS · MVP 01</p>
+      <p class="eyebrow">CAMPUS GIS · PROTOTYPE 02</p>
       <h1>校园设施管理系统</h1>
       <p>点击地图设施，快速查看位置、开放时间与服务信息。</p>
     </div>
-    <div class="status"><span></span> 演示数据已加载</div>
+    <div class="status"><span></span> WGS 84 · 演示数据</div>
   </header>
 
   <main class="layout">
@@ -34,12 +34,13 @@
         <button class="filter" data-category="生活">生活</button>
         <button class="filter" data-category="运动">运动</button>
       </div>
+      <button id="nearest" class="location-button">⌖ 查找离南门最近的设施</button>
       <p id="resultCount" class="muted"></p>
       <div id="facilityList" class="facility-list"></div>
     </aside>
 
     <section class="map-card" aria-label="校园设施示意地图">
-      <div class="map-label">北 ↑</div>
+      <div class="map-label">WGS 84 · EPSG:4326<br>北 ↑</div>
       <svg id="campusMap" viewBox="0 0 900 620" role="img" aria-label="校园平面图">
         <defs>
           <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
@@ -62,11 +63,18 @@
       <dl>
         <div><dt>分类</dt><dd id="detailCategory">—</dd></div>
         <div><dt>开放时间</dt><dd id="detailHours">—</dd></div>
-        <div><dt>坐标</dt><dd id="detailCoords">—</dd></div>
+        <div><dt>WGS 84 坐标</dt><dd id="detailCoords">—</dd></div>
+        <div><dt>距演示位置</dt><dd id="detailDistance">—</dd></div>
       </dl>
       <div id="openBadge" class="open-badge neutral">等待选择</div>
     </aside>
   </main>
+
+  <section class="project-notes">
+    <article><p class="eyebrow">问题</p><h2>让校园设施更容易被找到。</h2><p>将分散的设施信息组织成可搜索、可筛选、可计算距离的空间数据。</p></article>
+    <article><p class="eyebrow">方法</p><h2>空间数据驱动界面。</h2><p>每个设施包含经纬度、分类、开放时段与服务信息；地图与列表共享同一数据源。</p></article>
+    <article><p class="eyebrow">边界</p><h2>目前仍是学习原型。</h2><p>坐标和校园底图均为匿名演示数据，下一步可接入真实 GeoJSON、路径网络与 MapLibre 底图。</p></article>
+  </section>
 
   <script src="app.js"></script>
 </body>

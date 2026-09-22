@@ -18,6 +18,8 @@ input:focus { border-color:var(--green); box-shadow:0 0 0 3px #20756418; }
 .filters { display:flex; flex-wrap:wrap; gap:7px; margin:14px 0; }
 .filter { padding:7px 10px; border:1px solid var(--line); border-radius:999px; color:var(--ink); background:white; cursor:pointer; }
 .filter.active { color:white; border-color:var(--green); background:var(--green); }
+.location-button { width:100%; padding:10px 12px; border:1px solid var(--green); border-radius:10px; color:var(--green); background:#eff7f3; cursor:pointer; font-weight:700; }
+.location-button:hover { color:white; background:var(--green); }
 .muted { color:var(--muted); font-size:13px; }
 .facility-list { display:grid; gap:8px; max-height:430px; overflow:auto; }
 .facility-item { width:100%; padding:11px; border:1px solid transparent; border-radius:12px; text-align:left; color:var(--ink); background:#f3f7f4; cursor:pointer; }
@@ -44,6 +46,8 @@ input:focus { border-color:var(--green); box-shadow:0 0 0 3px #20756418; }
 dt { color:var(--muted); font-size:12px; } dd { margin:5px 0 0; font-weight:700; }
 .open-badge { display:inline-block; padding:8px 11px; border-radius:9px; font-size:13px; font-weight:700; }
 .open-badge.open { color:#176745; background:#dff3e8; }.open-badge.closed { color:#9b4729; background:#fbe4d9; }.open-badge.neutral { color:var(--muted); background:#edf1ef; }
+.project-notes { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin:10px clamp(20px,4vw,58px) 48px; overflow:hidden; border:1px solid var(--line); border-radius:20px; background:var(--line); }
+.project-notes article { padding:clamp(20px,3vw,34px); background:var(--card); }
+.project-notes h2 { font-size:20px; }.project-notes p:last-child { margin-bottom:0; color:var(--muted); font-size:14px; }
 @media (max-width:1000px) { .layout { grid-template-columns:240px 1fr; }.detail { grid-column:1/-1; }.map-card { min-height:460px; } }
-@media (max-width:700px) { .topbar { align-items:start; flex-direction:column; }.layout { grid-template-columns:1fr; }.detail { grid-column:auto; }.map-card,#campusMap { min-height:390px; }.facility-list { max-height:230px; } }
-
+@media (max-width:700px) { .topbar { align-items:start; flex-direction:column; }.layout { grid-template-columns:1fr; }.detail { grid-column:auto; }.map-card,#campusMap { min-height:390px; }.facility-list { max-height:230px; }.project-notes { grid-template-columns:1fr; } }

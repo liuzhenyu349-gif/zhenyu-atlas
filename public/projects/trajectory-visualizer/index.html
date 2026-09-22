@@ -16,7 +16,7 @@
 </head>
 <body>
   <header>
-    <div><p class="eyebrow">TRACK REPLAY · MVP 01</p><h1>实时轨迹可视化系统</h1><p>测绘外业车辆 · 演示轨迹 2026-09-20</p></div>
+    <div><p class="eyebrow">TRACK REPLAY · PROTOTYPE 02</p><h1>实时轨迹可视化系统</h1><p>测绘外业车辆 · WGS 84 演示轨迹 · 2026-09-20</p></div>
     <div id="liveStatus" class="live paused"><span></span><b>已暂停</b></div>
   </header>
 
@@ -31,18 +31,19 @@
         <path class="river" d="M-20 460C180 350 250 530 460 430S760 300 1020 370"/>
         <path class="road" d="M20 170C190 110 330 220 480 150S760 60 980 165"/>
         <path class="road thin" d="M120 20C180 190 100 310 250 570M710 20C650 190 820 360 760 590"/>
-        <polyline id="route" class="route"/>
+        <g id="routeSegments"></g>
         <polyline id="traveled" class="traveled"/>
         <g id="vehicle" filter="url(#glow)"><circle r="16"/><circle r="5"/></g>
       </svg>
       <div class="north">N<br>↑</div>
-      <div class="map-note">示意坐标系 · 真实项目将替换为地图底图与经纬度</div>
+      <div class="map-note">WGS 84 · EPSG:4326 · 匿名演示数据</div>
     </section>
 
     <section class="dashboard">
       <div class="controls">
         <button id="play">▶ 播放</button>
         <button id="restart" class="secondary">↺ 重播</button>
+        <button id="follow" class="secondary active">◎ 跟随开启</button>
         <label>倍速 <select id="speed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select></label>
         <span id="clock">08:00:00</span>
       </div>
@@ -53,8 +54,18 @@
         <article><span>累计距离</span><strong id="distance">0 m</strong></article>
         <article><span>完成进度</span><strong id="percent">0%</strong></article>
       </div>
+      <div class="analysis-grid">
+        <article class="speed-panel"><div><span>速度剖面</span><b id="quality">数据质量：正常</b></div><svg id="speedChart" viewBox="0 0 1000 130" preserveAspectRatio="none" aria-label="速度随时间变化图"><path id="speedArea"/><polyline id="speedLine"/><circle id="speedCursor" r="7"/></svg></article>
+        <article class="quality-panel"><span>轨迹诊断</span><strong id="qualitySummary">—</strong><p>规则：速度低于 3 km/h 视为停留；相邻采样间隔超过 120 秒视为数据缺口。</p></article>
+      </div>
     </section>
   </main>
+
+  <section class="project-notes">
+    <article><p class="eyebrow">问题</p><h2>让轨迹数据不止“动起来”。</h2><p>回放同时展示时间、位置、速度、里程与数据质量，帮助快速理解一次外业过程。</p></article>
+    <article><p class="eyebrow">方法</p><h2>按时间戳插值，按经纬度测距。</h2><p>所有节点包含 WGS 84 坐标与采样时间；累计距离采用 Haversine 大圆距离计算。</p></article>
+    <article><p class="eyebrow">边界</p><h2>可解释的学习原型。</h2><p>当前数据经过匿名化，底图为抽象示意。下一步可导入 GPX / GeoJSON，并接入真实地图瓦片。</p></article>
+  </section>
   <script src="app.js"></script>
 </body>
 </html>

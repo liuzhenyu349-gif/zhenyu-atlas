@@ -44,9 +44,9 @@ export const projectsPageContent: ProjectPageContent = {
   seo: { title: "Selected Work · Zhenyu Atlas", description: "GIS and surveying prototypes by Zhenyu Liu.", image: identity.hero },
   subtitle: "Practical prototypes where spatial thinking meets software.",
   projects: [
-    { title: "Survey Data Quality Inspector", description: "A Python web tool that turns fourth-order leveling data into route calculations, quality status, anomaly reports and interactive charts, with explicit limits for learning and assisted checking.", year: "2026", field: "Surveying · Python", status: "Prototype", url: "/projects/survey-data-inspector/" },
-    { title: "Campus Facilities Management System", description: "An interactive campus GIS prototype with eight clickable facilities, category filters, keyword search, facility details, opening status and coordinate display.", year: "2026", field: "GIS", status: "Prototype", url: "/projects/campus-facilities/" },
-    { title: "Real-time Trajectory Visualizer", description: "A surveying-oriented trajectory replay prototype with playback controls, speed adjustment, timeline scrubbing and live coordinate, distance and progress statistics.", year: "2026", field: "Surveying · Data", status: "Prototype", url: "/projects/trajectory-visualizer/" },
+    { title: "Survey Data Quality Inspector", description: "A Python web tool that turns fourth-order leveling data into route calculations, quality status, anomaly reports and interactive charts, with explicit limits for learning and assisted checking.", image: "/project-previews/survey-data-inspector.png", year: "2026", field: "Surveying · Python", status: "Prototype", url: "/projects/survey-data-inspector/" },
+    { title: "Campus Facilities Management System", description: "A campus GIS prototype with GeoJSON-style spatial data, WGS 84 coordinates, live opening status, search, category filters and nearest-facility analysis.", image: "/project-previews/campus-facilities.png", year: "2026", field: "GIS · Spatial Data", status: "Prototype", url: "/projects/campus-facilities/" },
+    { title: "Real-time Trajectory Visualizer", description: "A surveying-oriented trajectory replay that uses timestamped WGS 84 observations, geodesic distance, timeline scrubbing, speed profiling and quality flags.", image: "/project-previews/trajectory-visualizer.png", year: "2026", field: "Surveying · Data", status: "Prototype", url: "/projects/trajectory-visualizer/" },
   ],
 };
 

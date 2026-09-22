@@ -3,12 +3,12 @@ import type { Project } from "../types/config";
 import { withBase } from "../utils/url";
 
 type Props = Project & { index?: number };
-const { title, description, year, field, url, status, index = 0 } = Astro.props;
+const { title, description, image, year, field, url, status, index = 0 } = Astro.props;
 ---
 
 <article class:list={["project", { reverse: index % 2 === 1 }]}>
   <div class="project-image">
-    {url ? <iframe src={withBase(url)} title={`${title} 项目实时预览`} loading="lazy" tabindex="-1"></iframe> : <div class="placeholder" aria-hidden="true">Future field note</div>}
+    {image ? <img src={withBase(image)} alt={`${title} 界面预览`} loading="lazy" width="1440" height="900" /> : <div class="placeholder" aria-hidden="true">Future field note</div>}
   </div>
   <div class="project-copy">
     <p class="eyebrow">{status ?? "Project"}</p>
@@ -27,8 +27,8 @@ const { title, description, year, field, url, status, index = 0 } = Astro.props;
   .project { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(18rem, .8fr); align-items: center; gap: clamp(2.5rem, 7vw, 7rem); padding-block: clamp(4rem, 8vw, 7.5rem); border-top: 1px solid var(--border); }
   .project.reverse .project-image { order: 2; }
   .project-image { overflow: hidden; aspect-ratio: 16 / 10; border-radius: 1.6rem; background: var(--surface); }
-  .project-image iframe { width: 160%; height: 160%; border: 0; pointer-events: none; transform: scale(.625); transform-origin: 0 0; transition: transform .35s ease; }
-  .project:hover .project-image iframe { transform: scale(.632); }
+  .project-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .45s ease; }
+  .project:hover .project-image img { transform: scale(1.015); }
   .placeholder { height: 100%; display: grid; place-items: center; color: var(--gold-dark); background: radial-gradient(circle at 50% 20%, rgba(168,134,75,.15), transparent 40%), var(--surface); font-size: .74rem; letter-spacing: .18em; text-transform: uppercase; }
   h2 { margin: 0; font-family: var(--serif); font-size: clamp(2.2rem, 4vw, 4rem); font-weight: 400; letter-spacing: -.045em; line-height: 1.04; }
   .description { margin: 1.5rem 0 2rem; color: var(--text-secondary); font-size: 1.02rem; line-height: 1.75; }
