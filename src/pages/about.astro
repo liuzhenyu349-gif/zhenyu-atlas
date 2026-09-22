@@ -1,7 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
 import { aboutPageContent, identity } from "../config";
-import { withBase } from "../utils/url";
+import markImage from "../assets/zhenyu-atlas-mark.png";
 ---
 
 <Layout seo={aboutPageContent.seo}>
@@ -14,7 +15,7 @@ import { withBase } from "../utils/url";
   </section>
 
   <section class="page-shell story section">
-    <div class="mark-card card"><img src={withBase(identity.logo)} alt="Zhenyu Atlas ZA 标志" width="1280" height="1280" /></div>
+    <div class="mark-card card"><Image src={markImage} alt="Zhenyu Atlas ZA 标志" width={800} height={800} format="webp" quality={84} /></div>
     <div class="story-copy">
       <p class="eyebrow">Coordinates to code</p>
       <p class="story-large">I began with coordinates, fieldwork and maps. Now I’m learning to turn that way of seeing into useful digital tools.</p>
@@ -49,7 +50,7 @@ import { withBase } from "../utils/url";
   .intro .lead { margin: 0; }
   .story { display: grid; grid-template-columns: minmax(18rem, .85fr) 1.15fr; align-items: center; gap: clamp(3rem, 8vw, 8rem); }
   .mark-card { overflow: hidden; aspect-ratio: 1; }
-  .mark-card img { width: 100%; height: 100%; object-fit: cover; }
+  .mark-card :global(img) { width: 100%; height: 100%; object-fit: cover; }
   .story-large { margin: 0 0 2rem; font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.8rem); line-height: 1.12; letter-spacing: -.04em; }
   .focus { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(3rem, 8vw, 8rem); }
   .focus-list { border-top: 1px solid var(--border); }

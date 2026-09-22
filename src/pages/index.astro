@@ -1,9 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
 import { homePageContent, identity, projectsPageContent } from "../config";
 import ProjectCard from "../components/ProjectCard.astro";
 import { getCollection } from "astro:content";
 import { withBase } from "../utils/url";
+import heroImage from "../assets/zhenyu-atlas-hero.png";
 
 const posts = (await getCollection("posts")).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()).slice(0, 3);
 ---
@@ -19,7 +21,7 @@ const posts = (await getCollection("posts")).sort((a, b) => b.data.pubDate.getTi
       <a class="button-primary" href={withBase("/projects")}>Explore my work <span>→</span></a>
     </div>
     <figure class="hero-art">
-      <img src={withBase(identity.hero)} alt="Golden Atlas figure with cartographic compass and globe" width="1280" height="1280" />
+      <Image src={heroImage} alt="Golden Atlas figure with cartographic compass and globe" width={900} height={900} format="webp" quality={82} loading="eager" fetchpriority="high" />
       <figcaption>Atlas / Direction / Discovery</figcaption>
     </figure>
   </section>
@@ -71,7 +73,7 @@ const posts = (await getCollection("posts")).sort((a, b) => b.data.pubDate.getTi
   .hero .lead { margin: 0 0 2rem; }
   .hero-art { position: relative; margin: 0; overflow: hidden; border-radius: 50% 50% 1.75rem 1.75rem; background: var(--black); }
   .hero-art::after { content: ""; position: absolute; inset: auto 0 0; height: 22%; background: linear-gradient(transparent, rgba(10,8,5,.82)); pointer-events: none; }
-  .hero-art img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+  .hero-art :global(img) { width: 100%; aspect-ratio: 1; object-fit: cover; }
   .hero-art figcaption { position: absolute; z-index: 1; right: 1.5rem; bottom: 1.2rem; left: 1.5rem; color: #f5e7c9; font-size: .66rem; letter-spacing: .18em; text-transform: uppercase; }
   .section-head { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 3rem; }
   .featured-list :global(.project:first-child) { border-top: 0; }
