@@ -3,14 +3,14 @@ import type { Project } from "../types/config";
 import { withBase } from "../utils/url";
 
 type Props = Project & { index?: number };
-const { title, description, image, previewNote, year, field, url, status, index = 0 } = Astro.props;
+const { title, description, image, imageAlt, previewNote, year, field, url, status, index = 0 } = Astro.props;
 ---
 
 <article class:list={["project", { reverse: index % 2 === 1 }]}>
   <div class="project-image">
     {image && url ? (
       <a class="project-image-link" href={withBase(url)} aria-label={`打开 ${title} 项目页面`}>
-        <img src={withBase(image)} alt={`${title} 的${previewNote ? "早期" : ""}项目页面预览图`} loading="lazy" width="1440" height="900" />
+        <img src={withBase(image)} alt={imageAlt ?? `${title} 的${previewNote ? "早期" : ""}项目页面预览图`} loading="lazy" width="1440" height="900" />
         <span class="preview-hint">{previewNote ?? "Open project ↗"}</span>
       </a>
     ) : image ? <img src={withBase(image)} alt={`${title} 的项目页面预览图`} loading="lazy" width="1440" height="900" /> : <div class="placeholder" aria-hidden="true">Future field note</div>}

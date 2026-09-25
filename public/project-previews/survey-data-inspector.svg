@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title description">
+  <title id="title">Survey Data Quality Inspector interface illustration</title>
+  <desc id="description">The complete dark blue dashboard shows sample leveling metrics and a chart.</desc>
+  <defs>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#66b8b4" stroke-opacity=".13"/>
+    </pattern>
+    <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#80d7c8" stop-opacity=".27"/>
+      <stop offset="1" stop-color="#80d7c8" stop-opacity=".05"/>
+    </linearGradient>
+  </defs>
+  <rect width="1440" height="900" fill="#f8f5ee"/>
+  <text x="72" y="78" fill="#735a32" font-family="Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="4">SURVEYING · PYTHON · PROTOTYPE</text>
+  <text x="70" y="165" fill="#191816" font-family="Georgia, 'Times New Roman', serif" font-size="79">Survey Data</text>
+  <text x="70" y="247" fill="#191816" font-family="Georgia, 'Times New Roman', serif" font-size="79">Quality Inspector</text>
+  <text x="74" y="289" fill="#69635a" font-family="Arial, sans-serif" font-size="24">A learning prototype for reviewing fourth-order leveling data.</text>
+
+  <rect x="70" y="327" width="1300" height="523" rx="30" fill="#102f3a"/>
+  <text x="112" y="375" fill="#80d7c8" font-family="Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="3">SURVEYING · QUALITY CONTROL</text>
+  <text x="112" y="421" fill="#f4f7f8" font-family="Georgia, 'Times New Roman', serif" font-size="34">Automated checks for leveling data</text>
+  <rect x="1163" y="362" width="162" height="38" rx="19" fill="none" stroke="#7b9ca4"/>
+  <text x="1244" y="387" text-anchor="middle" fill="#e3eeee" font-family="Arial, sans-serif" font-size="13" font-weight="700">LOCAL PROTOTYPE</text>
+
+  <g font-family="Arial, sans-serif">
+    <rect x="112" y="454" width="292" height="102" rx="14" fill="#22414a" stroke="#49616a"/>
+    <text x="132" y="487" fill="#cbe5df" font-size="17">Total distance</text>
+    <text x="132" y="530" fill="#f4f7f8" font-size="31" font-weight="700">0.900 km</text>
+    <rect x="419" y="454" width="292" height="102" rx="14" fill="#22414a" stroke="#49616a"/>
+    <text x="439" y="487" fill="#cbe5df" font-size="17">Closure error</text>
+    <text x="439" y="530" fill="#f4f7f8" font-size="31" font-weight="700">+10.0 mm</text>
+    <rect x="726" y="454" width="292" height="102" rx="14" fill="#22414a" stroke="#49616a"/>
+    <text x="746" y="487" fill="#cbe5df" font-size="17">Allowed error</text>
+    <text x="746" y="530" fill="#f4f7f8" font-size="31" font-weight="700">±19.0 mm</text>
+    <rect x="1033" y="454" width="292" height="102" rx="14" fill="#22414a" stroke="#49616a"/>
+    <text x="1053" y="487" fill="#cbe5df" font-size="17">Quality</text>
+    <text x="1053" y="530" fill="#80d7c8" font-size="31" font-weight="700">PASS</text>
+  </g>
+
+  <rect x="112" y="579" width="1213" height="229" rx="16" fill="#173a45"/>
+  <rect x="112" y="579" width="1213" height="229" rx="16" fill="url(#grid)"/>
+  <g fill="#80d7c8" fill-opacity=".22">
+    <rect x="165" y="716" width="72" height="92" rx="5"/>
+    <rect x="350" y="672" width="72" height="136" rx="5"/>
+    <rect x="535" y="690" width="72" height="118" rx="5"/>
+    <rect x="720" y="639" width="72" height="169" rx="5"/>
+    <rect x="905" y="658" width="72" height="150" rx="5"/>
+    <rect x="1090" y="620" width="72" height="188" rx="5"/>
+  </g>
+  <path d="M175 734 L365 697 L550 710 L735 655 L920 676 L1105 638 L1256 648 L1256 808 L175 808Z" fill="url(#chartFill)"/>
+  <path d="M175 734 L365 697 L550 710 L735 655 L920 676 L1105 638 L1256 648" fill="none" stroke="#80d7c8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#b7ede3" stroke="#173a45" stroke-width="4">
+    <circle cx="175" cy="734" r="8"/><circle cx="365" cy="697" r="8"/><circle cx="550" cy="710" r="8"/>
+    <circle cx="735" cy="655" r="8"/><circle cx="920" cy="676" r="8"/><circle cx="1105" cy="638" r="8"/><circle cx="1256" cy="648" r="8"/>
+  </g>
+</svg>
