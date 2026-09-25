@@ -11,13 +11,26 @@ const facilities = [
 
 const demoLocation = { lon: 113.2451, lat: 35.20972 };
 
-const colors = { 教学: "#207564", 生活: "#e98752", 运动: "#4b7ea8" };
+const colors = { 教学: "#207564", 生活: "#a8481c", 运动: "#315f83" };
 const markers = document.querySelector("#markers");
 const list = document.querySelector("#facilityList");
 const search = document.querySelector("#search");
 const count = document.querySelector("#resultCount");
 let category = "全部";
 let selectedId = null;
+
+function clearDetail() {
+  selectedId = null;
+  document.querySelector("#detailName").textContent = "请选择设施";
+  document.querySelector("#detailDescription").textContent = "从列表或示意图中选择一个设施。";
+  document.querySelector("#detailCategory").textContent = "—";
+  document.querySelector("#detailHours").textContent = "—";
+  document.querySelector("#detailCoords").textContent = "—";
+  document.querySelector("#detailDistance").textContent = "—";
+  const badge = document.querySelector("#openBadge");
+  badge.textContent = "等待选择";
+  badge.className = "open-badge neutral";
+}
 
 function isOpen(facility, date = new Date()) {
   if (!facility.schedule) return true;
@@ -37,8 +50,9 @@ function distanceMeters(a, b) {
 }
 
 function selectFacility(id) {
-  selectedId = id;
   const facility = facilities.find(item => item.id === id);
+  if (!facility || !visibleFacilities().some(item => item.id === id)) return;
+  selectedId = id;
   document.querySelector("#detailName").textContent = facility.name;
   document.querySelector("#detailDescription").textContent = facility.description;
   document.querySelector("#detailCategory").textContent = facility.category;
@@ -47,7 +61,7 @@ function selectFacility(id) {
   document.querySelector("#detailDistance").textContent = `${Math.round(distanceMeters(demoLocation, facility))} m · 直线距离`;
   const badge = document.querySelector("#openBadge");
   const open = isOpen(facility);
-  badge.textContent = open ? "按当前时间：开放" : "按当前时间：非开放时段";
+  badge.textContent = open ? "示例时段：开放" : "示例时段：非开放";
   badge.className = `open-badge ${open ? "open" : "closed"}`;
   render();
 }
@@ -56,7 +70,7 @@ function visibleFacilities() {
   const term = search.value.trim().toLowerCase();
   return facilities.filter(item => {
     const categoryMatches = category === "全部" || item.category === category;
-    const textMatches = `${item.name} ${item.keywords}`.toLowerCase().includes(term);
+    const textMatches = `${item.name} ${item.category} ${item.keywords}`.toLowerCase().includes(term);
     return categoryMatches && textMatches;
   });
 }
@@ -64,32 +78,67 @@ function visibleFacilities() {
 function render() {
   const visible = visibleFacilities();
   const visibleIds = new Set(visible.map(item => item.id));
+  if (selectedId !== null && !visibleIds.has(selectedId)) clearDetail();
   count.textContent = `显示 ${visible.length} / ${facilities.length} 个设施`;
-  list.innerHTML = visible.map(item => `
-    <button class="facility-item ${selectedId === item.id ? "active" : ""}" data-id="${item.id}">
-      ${item.name}<small>${item.category} · ${item.hours}</small>
-    </button>`).join("");
-  list.querySelectorAll("button").forEach(button => button.addEventListener("click", () => selectFacility(Number(button.dataset.id))));
+  const entries = visible.map(item => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `facility-item ${selectedId === item.id ? "active" : ""}`;
+    button.dataset.id = item.id;
+    button.setAttribute("aria-pressed", String(selectedId === item.id));
+    button.append(document.createTextNode(item.name));
+    const details = document.createElement("small");
+    details.textContent = `${item.category} · ${item.hours}`;
+    button.append(details);
+    button.addEventListener("click", () => selectFacility(item.id));
+    return button;
+  });
+  if (entries.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "muted";
+    empty.textContent = "没有匹配的设施，请更换关键词或分类。";
+    entries.push(empty);
+  }
+  list.replaceChildren(...entries);
   document.querySelectorAll(".marker").forEach(marker => {
     const id = Number(marker.dataset.id);
     marker.classList.toggle("hidden", !visibleIds.has(id));
     marker.classList.toggle("active", selectedId === id);
+    marker.setAttribute("tabindex", visibleIds.has(id) ? "0" : "-1");
+    marker.setAttribute("aria-hidden", String(!visibleIds.has(id)));
+    marker.setAttribute("aria-pressed", String(selectedId === id));
   });
 }
 
 facilities.forEach(item => {
   const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
   group.setAttribute("class", "marker");
+  group.setAttribute("role", "button");
+  group.setAttribute("aria-label", `查看${item.name}`);
   group.dataset.id = item.id;
-  group.innerHTML = `<rect x="${item.x - 52}" y="${item.y - 24}" width="104" height="48" rx="13" fill="${colors[item.category]}"></rect><text x="${item.x}" y="${item.y + 5}">${item.name}</text>`;
+  const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+  for (const [name, value] of Object.entries({ x: item.x - 52, y: item.y - 24, width: 104, height: 48, rx: 13, fill: colors[item.category] })) rect.setAttribute(name, value);
+  const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+  label.setAttribute("x", item.x);
+  label.setAttribute("y", item.y + 5);
+  label.textContent = item.name;
+  group.append(rect, label);
   group.addEventListener("click", () => selectFacility(item.id));
+  group.addEventListener("keydown", event => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      selectFacility(item.id);
+    }
+  });
   markers.appendChild(group);
 });
 
 document.querySelectorAll(".filter").forEach(button => button.addEventListener("click", () => {
-  document.querySelectorAll(".filter").forEach(item => item.classList.remove("active"));
-  button.classList.add("active");
   category = button.dataset.category;
+  document.querySelectorAll(".filter").forEach(item => {
+    item.classList.toggle("active", item === button);
+    item.setAttribute("aria-pressed", String(item === button));
+  });
   render();
 }));
 search.addEventListener("input", render);
@@ -97,7 +146,11 @@ document.querySelector("#nearest").addEventListener("click", () => {
   const nearest = facilities.reduce((best, facility) => distanceMeters(demoLocation, facility) < distanceMeters(demoLocation, best) ? facility : best);
   category = "全部";
   search.value = "";
-  document.querySelectorAll(".filter").forEach(item => item.classList.toggle("active", item.dataset.category === "全部"));
+  document.querySelectorAll(".filter").forEach(item => {
+    const active = item.dataset.category === "全部";
+    item.classList.toggle("active", active);
+    item.setAttribute("aria-pressed", String(active));
+  });
   selectFacility(nearest.id);
   document.querySelector(`[data-id="${nearest.id}"]`)?.scrollIntoView({ behavior: "smooth", block: "nearest" });
 });

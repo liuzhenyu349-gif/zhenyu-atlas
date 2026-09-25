@@ -3,44 +3,44 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>校园设施管理系统原型 | Zhenyu Liu</title>
-  <meta name="description" content="Zhenyu Liu 的校园 GIS 学习原型，支持设施搜索、分类筛选、地图交互、开放状态与坐标信息展示。">
+  <title>校园设施查询原型 | Zhenyu Liu</title>
+  <meta name="description" content="使用模拟设施和示例经纬度的校园查询原型，支持搜索、筛选、距离估算和示意地图交互。">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#eef5f2">
   <link rel="canonical" href="./">
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="校园设施管理系统原型 | Zhenyu Liu">
-  <meta property="og:description" content="可交互的校园 GIS 学习原型，包含设施搜索、分类筛选、详情与坐标展示。">
+  <meta property="og:title" content="校园设施查询原型 | Zhenyu Liu">
+  <meta property="og:description" content="模拟设施查询、分类筛选和示例位置的直线距离估算。">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="topbar">
     <div>
-      <p class="eyebrow">CAMPUS GIS · PROTOTYPE 02</p>
-      <h1>校园设施管理系统</h1>
-      <p>点击地图设施，快速查看位置、开放时间与服务信息。</p>
+      <p class="eyebrow">CAMPUS GIS · LEARNING PROTOTYPE</p>
+      <h1>校园设施查询原型</h1>
+      <p>在示意图上查询模拟设施；位置和开放时段均非真实校区资料。</p>
     </div>
-    <div class="status"><span></span> WGS 84 · 演示数据</div>
+    <div class="status"><span></span> 模拟数据 · 示例经纬度</div>
   </header>
 
   <main class="layout">
     <aside class="panel controls">
       <label for="search">搜索设施</label>
       <input id="search" type="search" placeholder="例如：图书馆、食堂、运动">
-      <div class="filters" aria-label="设施分类">
-        <button class="filter active" data-category="全部">全部</button>
-        <button class="filter" data-category="教学">教学</button>
-        <button class="filter" data-category="生活">生活</button>
-        <button class="filter" data-category="运动">运动</button>
+      <div class="filters" role="group" aria-label="设施分类">
+        <button type="button" class="filter active" data-category="全部" aria-pressed="true">全部</button>
+        <button type="button" class="filter" data-category="教学" aria-pressed="false">教学</button>
+        <button type="button" class="filter" data-category="生活" aria-pressed="false">生活</button>
+        <button type="button" class="filter" data-category="运动" aria-pressed="false">运动</button>
       </div>
-      <button id="nearest" class="location-button">⌖ 查找离南门最近的设施</button>
-      <p id="resultCount" class="muted"></p>
+      <button id="nearest" type="button" class="location-button">⌖ 查找离示例位置最近的设施</button>
+      <p id="resultCount" class="muted" aria-live="polite"></p>
       <div id="facilityList" class="facility-list"></div>
     </aside>
 
     <section class="map-card" aria-label="校园设施示意地图">
-      <div class="map-label">WGS 84 · EPSG:4326<br>北 ↑</div>
+      <div class="map-label">示意平面图<br>北 ↑</div>
       <svg id="campusMap" viewBox="0 0 900 620" role="img" aria-label="校园平面图">
         <defs>
           <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
@@ -62,18 +62,18 @@
       <p id="detailDescription">从左侧列表或地图中选择一个设施。</p>
       <dl>
         <div><dt>分类</dt><dd id="detailCategory">—</dd></div>
-        <div><dt>开放时间</dt><dd id="detailHours">—</dd></div>
-        <div><dt>WGS 84 坐标</dt><dd id="detailCoords">—</dd></div>
-        <div><dt>距演示位置</dt><dd id="detailDistance">—</dd></div>
+        <div><dt>示例开放时间</dt><dd id="detailHours">—</dd></div>
+        <div><dt>示例经纬度</dt><dd id="detailCoords">—</dd></div>
+        <div><dt>距示例位置</dt><dd id="detailDistance">—</dd></div>
       </dl>
       <div id="openBadge" class="open-badge neutral">等待选择</div>
     </aside>
   </main>
 
   <section class="project-notes">
-    <article><p class="eyebrow">问题</p><h2>让校园设施更容易被找到。</h2><p>将分散的设施信息组织成可搜索、可筛选、可计算距离的空间数据。</p></article>
-    <article><p class="eyebrow">方法</p><h2>空间数据驱动界面。</h2><p>每个设施包含经纬度、分类、开放时段与服务信息；地图与列表共享同一数据源。</p></article>
-    <article><p class="eyebrow">边界</p><h2>目前仍是学习原型。</h2><p>坐标和校园底图均为匿名演示数据，下一步可接入真实 GeoJSON、路径网络与 MapLibre 底图。</p></article>
+    <article><p class="eyebrow">问题</p><h2>让校园设施更容易被找到。</h2><p>用同一份模拟记录驱动搜索、分类、列表和示意地图。</p></article>
+    <article><p class="eyebrow">方法</p><h2>让计算过程可解释。</h2><p>示例经纬度用于估算到固定示例位置的直线距离；开放标签按本机时间对照模拟时段。</p></article>
+    <article><p class="eyebrow">边界</p><h2>目前仍是学习原型。</h2><p>设施、坐标、时段和底图均为合成示例，距离不能用于校园导航，也没有真实数据来源。</p></article>
   </section>
 
   <script src="app.js"></script>

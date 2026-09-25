@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>实时轨迹可视化系统原型 | Zhenyu Liu</title>
-  <meta name="description" content="Zhenyu Liu 的测绘轨迹可视化学习原型，支持轨迹回放、倍速控制、进度拖动以及坐标、距离和速度统计。">
+  <title>轨迹回放原型 | Zhenyu Liu</title>
+  <meta name="description" content="使用合成点列演示轨迹回放、倍速控制、进度拖动、坐标插值与距离估算。">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#07161d">
   <link rel="canonical" href="./">
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="实时轨迹可视化系统原型 | Zhenyu Liu">
-  <meta property="og:description" content="面向测绘学习的轨迹回放原型，包含播放控制、进度拖动与实时统计。">
+  <meta property="og:title" content="轨迹回放原型 | Zhenyu Liu">
+  <meta property="og:description" content="以合成点列演示播放控制、进度拖动、坐标插值与距离估算。">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
-    <div><p class="eyebrow">TRACK REPLAY · PROTOTYPE 02</p><h1>实时轨迹可视化系统</h1><p>测绘外业车辆 · WGS 84 演示轨迹 · 2026-09-20</p></div>
+    <div><p class="eyebrow">TRACK REPLAY · LEARNING PROTOTYPE</p><h1>轨迹回放原型</h1><p>合成采样点 · 经纬度演示 · 非真实外业记录</p></div>
     <div id="liveStatus" class="live paused"><span></span><b>已暂停</b></div>
   </header>
 
@@ -36,7 +36,7 @@
         <g id="vehicle" filter="url(#glow)"><circle r="16"/><circle r="5"/></g>
       </svg>
       <div class="north">N<br>↑</div>
-      <div class="map-note">WGS 84 · EPSG:4326 · 匿名演示数据</div>
+      <div class="map-note">抽象示意图 · 合成坐标点列</div>
     </section>
 
     <section class="dashboard">
@@ -49,22 +49,22 @@
       </div>
       <input id="progress" type="range" min="0" max="1000" value="0" aria-label="轨迹播放进度">
       <div class="stats">
-        <article><span>当前坐标</span><strong id="coords">—</strong></article>
-        <article><span>当前速度</span><strong id="currentSpeed">—</strong></article>
-        <article><span>累计距离</span><strong id="distance">0 m</strong></article>
+        <article><span>插值坐标</span><strong id="coords">—</strong></article>
+        <article><span>预设速度</span><strong id="currentSpeed">—</strong></article>
+        <article><span>估算距离</span><strong id="distance">0 m</strong></article>
         <article><span>完成进度</span><strong id="percent">0%</strong></article>
       </div>
       <div class="analysis-grid">
-        <article class="speed-panel"><div><span>速度剖面</span><b id="quality">数据质量：正常</b></div><svg id="speedChart" viewBox="0 0 1000 130" preserveAspectRatio="none" aria-label="速度随时间变化图"><path id="speedArea"/><polyline id="speedLine"/><circle id="speedCursor" r="7"/></svg></article>
-        <article class="quality-panel"><span>轨迹诊断</span><strong id="qualitySummary">—</strong><p>规则：速度低于 3 km/h 视为停留；相邻采样间隔超过 120 秒视为数据缺口。</p></article>
+        <article class="speed-panel"><div><span>预设速度剖面</span><b id="quality">演示规则检查：—</b></div><svg id="speedChart" viewBox="0 0 1000 130" preserveAspectRatio="none" aria-label="预设速度随时间变化图"><path id="speedArea"/><polyline id="speedLine"/><circle id="speedCursor" r="7"/></svg></article>
+        <article class="quality-panel"><span>演示规则检查</span><strong id="qualitySummary">—</strong><p>规则：预设速度低于 3 km/h 标记为停留点；相邻时间戳超过 120 秒标记为时间缺口。这些标记不代表真实测量质量。</p></article>
       </div>
     </section>
   </main>
 
   <section class="project-notes">
-    <article><p class="eyebrow">问题</p><h2>让轨迹数据不止“动起来”。</h2><p>回放同时展示时间、位置、速度、里程与数据质量，帮助快速理解一次外业过程。</p></article>
-    <article><p class="eyebrow">方法</p><h2>按时间戳插值，按经纬度测距。</h2><p>所有节点包含 WGS 84 坐标与采样时间；累计距离采用 Haversine 大圆距离计算。</p></article>
-    <article><p class="eyebrow">边界</p><h2>可解释的学习原型。</h2><p>当前数据经过匿名化，底图为抽象示意。下一步可导入 GPX / GeoJSON，并接入真实地图瓦片。</p></article>
+    <article><p class="eyebrow">问题</p><h2>让点列不止“动起来”。</h2><p>回放同时展示时间、插值位置、预设速度与估算路程，帮助理解轨迹可视化的基础交互。</p></article>
+    <article><p class="eyebrow">方法</p><h2>按时间戳插值，按经纬度测距。</h2><p>合成节点包含经纬度与模拟采样时间；累计路程按相邻节点的 Haversine 大圆距离求和，未进行道路匹配。</p></article>
+    <article><p class="eyebrow">边界</p><h2>可解释的学习原型。</h2><p>坐标、时间和速度均为手工构造的演示值，底图只是抽象示意，尚不支持导入 GPX / GeoJSON 或显示真实地图瓦片。</p></article>
   </section>
   <script src="app.js"></script>
 </body>

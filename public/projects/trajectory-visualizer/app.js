@@ -30,6 +30,7 @@ const durationSeconds = endSeconds - startSeconds;
 let position = 0;
 let playing = false;
 let lastFrame = null;
+let frameId = null;
 let follow = true;
 
 function speedColor(speed) {
@@ -107,15 +108,18 @@ function render() {
 }
 
 function setPlaying(value) {
+  if (frameId !== null) cancelAnimationFrame(frameId);
+  frameId = null;
   playing = value;
   playButton.textContent = playing ? "Ⅱ 暂停" : "▶ 播放";
   liveStatus.classList.toggle("paused", !playing);
   liveStatus.querySelector("b").textContent = playing ? "正在回放" : "已暂停";
   lastFrame = null;
-  if (playing) requestAnimationFrame(tick);
+  if (playing) frameId = requestAnimationFrame(tick);
 }
 
 function tick(timestamp) {
+  frameId = null;
   if (!playing) return;
   if (lastFrame !== null) {
     const speed = Number(document.querySelector("#speed").value);
@@ -124,7 +128,7 @@ function tick(timestamp) {
     if (position >= 1) { setPlaying(false); return; }
   }
   lastFrame = timestamp;
-  requestAnimationFrame(tick);
+  frameId = requestAnimationFrame(tick);
 }
 
 playButton.addEventListener("click", () => { if (position >= 1) position = 0; setPlaying(!playing); render(); });
@@ -142,5 +146,5 @@ document.querySelector("#speedArea").setAttribute("d", `M0,116 L${chartPoints.jo
 const stopCount = points.filter(point => point.speed < 3).length;
 const gapCount = points.slice(1).filter((point, index) => toSeconds(point.time) - toSeconds(points[index].time) > 120).length;
 document.querySelector("#qualitySummary").textContent = `${points.length} 个观测点 · ${stopCount} 个停留点 · ${gapCount} 个时间缺口`;
-document.querySelector("#quality").textContent = gapCount ? `数据质量：${gapCount} 处需检查` : "数据质量：正常";
+document.querySelector("#quality").textContent = gapCount ? `演示规则检查：${gapCount} 处时间缺口` : "演示规则检查：无时间缺口";
 render();

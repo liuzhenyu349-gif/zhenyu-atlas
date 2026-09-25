@@ -5,6 +5,6 @@ export type SEOInfo = { title: string; description: string; image: string; type?
 export type HomePageContent = { seo: SEOInfo; role: string; description: string; socialLinks: SocialLink[]; links: { title: string; url: string; external?: boolean }[] };
 export type ResumeItem = { title: string; company: { name: string; image: string; url?: string }; date: string };
 export type AboutPageContent = { seo: SEOInfo; subtitle: string; about: { description: string; image_l: { url: string; alt: string }; image_r: { url: string; alt: string } }; work: { description: string; items: ResumeItem[] }; connect: { description: string; links: SocialLink[] } };
-export type Project = { title: string; description: string; image?: string; year: string; field?: string; url?: string; status?: string };
+export type Project = { title: string; description: string; image?: string; previewNote?: string; year: string; field?: string; url?: string; status?: string };
 export type ProjectPageContent = { seo: SEOInfo; subtitle: string; projects: Project[] };
 export type BlogPageContent = { seo: SEOInfo; subtitle: string };
